@@ -129,6 +129,19 @@ const MODES = {
 			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 		},
 	},
+	"NG-": {
+		desc: "A mode that nerfs stuff.",
+		balancing: "",
+		balanceCheck: false,
+		combos: {
+			hard: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			aau: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			na: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			absurd: JSON.parse(JSON.stringify(COMBOS.absurd)),
+			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+		},
+	},
 };
 
 const MODE_VARS = {

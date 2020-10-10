@@ -12,6 +12,7 @@ function getTimeCubeGain() {
 	let gain = new ExpantaNum(1);
 	if (modeActive("hard")) gain = gain.div(3);
 	if (modeActive("easy")) gain = gain.times(5).times(player.pathogens.amount.plus(1));
+	if (modeActive("NG-")) gain = gain.div(10);
 	if (player.tr.upgrades.includes(1) && !HCCBA("noTRU")) gain = gain.times(tr1Eff());
 	if (player.tr.upgrades.includes(4) && !HCCBA("noTRU")) gain = gain.times(tr4Eff());
 	if (tmp.ach[55].has) gain = gain.times(1.1);
@@ -31,7 +32,7 @@ function getTimeCubeGain() {
 	return gain
 }
 
-function reverseTime(force = false) {
+function reverseTime() {
 	if (!player.tr.unl) return;
 	player.tr.active = !player.tr.active;
 }
@@ -45,12 +46,13 @@ function buyTRUpg(n) {
 
 
 function tr1Eff() {
-	return ExpantaNum.pow(1.1, player.rank.plus(player.tier));
+	return ExpantaNum.pow(1.1 - (modeActive("NG-") ? 0.07 : 0), player.rank.plus(player.tier));
 }
 
 function tr2Pow() {
 	let pow = new ExpantaNum(1)
 	if (tmp.pathogens && player.pathogens.unl) pow = pow.times(tmp.pathogens[1].eff());
+	if (modeActive("NG-")) pow = pow.times(0.7)
 	return pow
 }
 
@@ -63,15 +65,15 @@ function tr2Eff() {
 function tr4Eff() {
 	let r = player.rockets
 	if (r.gte(1e10)) r = r.pow(0.1).times(1e9)
-	return ExpantaNum.pow(1.33, r.plus(1).log10())
+	return ExpantaNum.pow(1.33 - (modeActive("NG-") ? (0.33 * 0.3) : 0), r.plus(1).log10())
 }
 
 function tr6Eff() {
-	return ExpantaNum.pow(1.1, player.tr.cubes.plus(1).log10())
+	return ExpantaNum.pow(1.1 - (modeActive("NG-") ? 0.07 : 0), player.tr.cubes.plus(1).log10())
 }
 
 function tr7Eff() {
-	return ExpantaNum.pow(1.05, player.achievements.length)
+	return ExpantaNum.pow(1.05 - (modeActive("NG-") ? 0.035 : 0), player.achievements.length)
 }
 
 function getTR89Mod() {
@@ -92,11 +94,11 @@ function tr9Eff() {
 function tr10Eff() {
 	let cubes = player.tr.cubes
 	if (cubes.gte(1e10)) cubes = cubes.pow(0.1).times(1e9)
-	return ExpantaNum.pow(1.1, cubes.plus(1).log10())
+	return ExpantaNum.pow(1.1 - (modeActive("NG-") ? 0.07 : 0), cubes.plus(1).log10())
 }
 
 function tr11Pow() {
-	let pow = new ExpantaNum(1)
+	let pow = new ExpantaNum(1 - (modeActive("NG-") ? 0.3 : 0))
 	if (tmp.inf) if (tmp.inf.upgs.has("1;8")) pow = pow.times(INF_UPGS.effects["1;8"]())
 	return pow
 }
@@ -109,7 +111,7 @@ function tr11Eff() {
 }
 
 function tr12Eff() {
-	return tmp.dc ? tmp.dc.allComp.plus(1).sqrt() : new ExpantaNum(1)
+	return tmp.dc ? tmp.dc.allComp.plus(1).sqrt().pow(1 - (modeActive("NG-") ? 0.3 : 0)) : new ExpantaNum(1)
 }
 
 function tr13Eff() {
@@ -118,15 +120,15 @@ function tr13Eff() {
 
 function tr14Eff() {
 	return {
-		cd: player.tier.plus(1).pow(1.25),
-		ss: player.dc.cores.plus(1).log10().plus(1).log10().times(7.5)
+		cd: player.tier.plus(1).pow(1.25).pow(1 - (modeActive("NG-") ? 0.3 : 0)),
+		ss: player.dc.cores.plus(1).log10().plus(1).log10().times(7.5).pow(1 - (modeActive("NG-") ? 0.3 : 0))
 	}
 }
 
 function tr15Eff() {
 	let eff = ExpantaNum.pow(1.2, player.dc.cores)
 	if (eff.gte(10)) eff = eff.log10().times(10)
-	return eff
+	return eff.pow(1 - (modeActive("NG-") ? 0.3 : 0))
 }
 
 function tr19Eff() {
