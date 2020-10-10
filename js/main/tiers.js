@@ -172,7 +172,7 @@ function getTierBaseCost() {
 	let bc = new ExpantaNum(3)
 	if (modeActive("extreme") && player.tier < 2) bc = bc.plus(1);
 	if (modeActive("easy") && player.tier < 2) bc = bc.sub(1);
-	if (modeActive("NG-")) bc = bc.plus(1);
+	// if (modeActive("NG-")) bc = bc.plus(1); it was too much
 	if (tmp.inf) if (tmp.inf.stadium.active("solaris", 5) || tmp.inf.stadium.active("spaceon", 6)) bc = bc.plus(25);
 	return bc
 }
