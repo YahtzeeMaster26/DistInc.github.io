@@ -144,7 +144,7 @@ function updateTempTiers() {
 		: DEFAULT_TIER_DESC;
 	tmp.tiers.canTierUp = player.rank.gte(tmp.tiers.req);
 	if (nerfActive("noTier")) tmp.tiers.canTierUp = false;
-	tmp.tiers.layer = new Layer("tier", tmp.tiers.canTierUp, "semi-forced");
+	tmp.tiers.layer = new Layer("tier", tmp.tiers.canTierUp, "semi-forced", undefined, "tiers");
 	if (!tmp.tier) tmp.tier = {};
 	if (!tmp.tier.onReset) tmp.tier.onReset = function (prev) {
 		if (modeActive('extreme')) if (tmp.ach[22].has) player.rankCheap = new ExpantaNum(1)
@@ -157,7 +157,7 @@ function updateTempTiers() {
 		}
 		if (!tmp.inf.upgs.has("4;9")) tmp.inf.derv.resetDervs();
 	};
-	if (!tmp.tier.updateOnReset) tmp.tier.updateOnReset = function() { updateTempTiers(); }
+	tmp.tiers.updateOnReset = updateTempTiers
 }
 
 function getTierFP() {

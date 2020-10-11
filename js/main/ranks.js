@@ -170,7 +170,7 @@ function updateTempRanks() {
 		: DEFAULT_RANK_DESC;
 	tmp.ranks.canRankUp = player.distance.gte(tmp.ranks.req);
 	if (nerfActive("noRank")) tmp.ranks.canRankUp = false;
-	tmp.ranks.layer = new Layer("rank", tmp.ranks.canRankUp, "semi-forced");
+	tmp.ranks.layer = new Layer("rank", tmp.ranks.canRankUp, "semi-forced", undefined, "ranks");
 	if (!tmp.rank) tmp.rank = {};
 	if (!tmp.rank.onReset) tmp.rank.onReset = function (prev) {
 		if (tmp.collapse)
@@ -180,7 +180,7 @@ function updateTempRanks() {
 			}
 		if (!tmp.inf.upgs.has("4;9")) tmp.inf.derv.resetDervs();
 	};
-	if (!tmp.rank.updateOnReset) tmp.rank.updateOnReset = function() { updateTempRanks(); }
+	tmp.ranks.updateOnReset = updateTempRanks
 }
 
 function getRankFP() {

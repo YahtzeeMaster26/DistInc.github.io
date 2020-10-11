@@ -74,7 +74,7 @@ function updateTempRockets() {
 		if (modeActive("hard")) tmp.rockets.lrm = tmp.rockets.lrm.times(2);
 		if (modeActive("extreme")) tmp.rockets.lrm = tmp.rockets.lrm.div(100);
 	}
-	if (modeActive("NG-")) tmp.rockets.lrm = tmp.rockets.lrm.times(3);
+	if (modeActive("NG-")) tmp.rockets.lrm = tmp.rockets.lrm.times(1.5);
 
 	tmp.rockets.sc = getRocketSoftcapStart();
 	tmp.rockets.canRocket = player.distance.gte(ExpantaNum.mul(LAYER_REQS["rockets"][1], tmp.rockets.lrm));
