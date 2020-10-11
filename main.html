@@ -111,7 +111,10 @@
 				Reset your ranks, but <span id="tierDesc" class="based"></span><br />Req: Rank
 				<span id="tierReq" class="based"></span>.
 			</button><br><br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="quickReset" class="btn" onclick="quickReset()" style="min-width: 200px;" tooltip="Performs a Rank reset (without the reward)">Quick Reset</button><br><br><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button id="quickReset" class="btn" onclick="quickReset()" style="min-width: 200px;" tooltip="Performs a Rank reset (without the reward)">Quick Reset</button><br><br><br>
+
+			<table id = "rankTierBonusTable"></table> <!-- elements.js updateRankTierBonusHtml() -->
 		</div>
 		<div id="options" class="tab" style="display: none;">
 			<table>
@@ -1994,7 +1997,9 @@
 	<script type="text/javascript" src="js/main/misc.js"></script>
 	<script type="text/javascript" src="js/main/timeSpeed.js"></script>
 	<script type="text/javascript" src="js/main/hd.js"></script>
+	
 	<script type="text/javascript" src="js/modes/ngm.js"></script>
+	<script type="text/javascript" src="js/modes/qolstuff.js"></script>
 
 	<!-- Extreme Mode File Data -->
 

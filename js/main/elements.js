@@ -49,12 +49,35 @@ function updatePreRanksHTML(){
 	tmp.el.acceleration.setTxt(formatDistance(tmp.acc));
 }
 
+function updateRankTierBonusHtml() {
+	let htmlStuff = "<tr><th>Rank Bonuses</th><th>Tier Bonuses</th></tr>"
+	let rankStuff = []
+	let tierStuff = []
+
+	for (const i in RANK_DESCS) if (player.rank.gt(i)) rankStuff.push(`<td class = "rankTierBonus">Rank ${i - (-1)}: ${RANK_DESCS[i][0].toUpperCase()}${RANK_DESCS[i].slice(1)}</td>`)
+	for (const i in TIER_DESCS) if (player.tier.gt(i)) tierStuff.push(`<td class = "rankTierBonus">Tier ${i - (-1)}: ${TIER_DESCS[i][0].toUpperCase()}${TIER_DESCS[i].slice(1)}</td>`)
+
+	let i = 0
+	while (rankStuff[i] || tierStuff[i]) {
+		htmlStuff += "<tr>"
+		if (rankStuff[i]) htmlStuff += rankStuff[i]
+		else htmlStuff += "<td></td>"
+		if (tierStuff[i]) htmlStuff += tierStuff[i]
+		htmlStuff += "</tr>"
+
+		i++
+	}
+
+	tmp.rankTierBonuses.setHTML(htmlStuff)
+}
+
 function updateRanksHTML(){
 	tmp.el.rank.setTxt(showNum(player.rank));
 	tmp.el.rankUp.setClasses({ btn: true, locked: !tmp.ranks.canRankUp });
 	tmp.el.rankDesc.setTxt(tmp.ranks.desc);
 	tmp.el.rankReq.setTxt(formatDistance(tmp.ranks.req));
 	tmp.el.rankName.setTxt(getScalingName("rank") + "Rank");
+	updateRankTierBonusHtml()
 }
 
 function updateTiersHTML(){
@@ -63,6 +86,7 @@ function updateTiersHTML(){
 	tmp.el.tierDesc.setTxt(tmp.tiers.desc);
 	tmp.el.tierReq.setTxt(showNum(tmp.tiers.req.ceil()));
 	tmp.el.tierName.setTxt(getScalingName("tier") + "Tier");
+	updateRankTierBonusHtml()
 }
 
 function updateMainHTML(){

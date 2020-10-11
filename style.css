@@ -1928,3 +1928,13 @@ table {
 	opacity: 1;
 	white-space: pre-wrap;
 }
+
+/* new css */
+th {
+	margin: 5%;
+}
+
+.rankTierBonus {
+	max-width: 450px;
+	border: 1px solid #888;
+}
