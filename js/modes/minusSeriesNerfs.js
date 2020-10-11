@@ -1,6 +1,6 @@
 const minusSeriesNerfs = {
 	rankScaling: [1, 1.2, 1.4],
-	tierScaling: [1, 11.3, 1.6],
+	tierScaling: [1, 1.3, 1.6],
 	tierCostAdd: [0, 0, 1],
 
 	timeSpeed: [1, 4, 10],
