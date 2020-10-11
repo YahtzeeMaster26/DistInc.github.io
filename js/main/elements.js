@@ -1326,6 +1326,10 @@ function updateQFHTML() {
 	}
 }
 
+function updateNgmHtml() {
+	if (modeActive("NG-")) tmp.ngm.rocketEff2.setTxt(` and adding ${showNum(secondRocketEffect())} to maximum velocity.`)
+}
+
 function updateHTML() {
 	updateOptionsHTML()
 	updateMainHTML()
@@ -1343,6 +1347,7 @@ function updateHTML() {
 	updateOverallElementaryHTML()
 	updateOverallEnergyHTML()
 	updateMiscHTML()
+	updateNgmHtml()
 	
 	// Features
 	tmp.el.nextFeature.setTxt(tmp.nf === "none" ? "All Features Unlocked!" : tmp.features[tmp.nf].desc);	

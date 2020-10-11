@@ -1,3 +1,7 @@
+function exitModesOnElem() {
+	return (modeActive("easy")||modeActive("hard")||modeActive("hikers_dream")) && !modeActive("noEnd")
+}
+
 function setElementaryResetFunction(){
 	if (!tmp.elm.onReset) tmp.elm.onReset = function (prev) {
 		player.elementary.time = new ExpantaNum(0);
@@ -48,7 +52,7 @@ function setElementaryResetFunction(){
 		infTab = "infinity"
 		
 		// Modes
-		if (modeActive("easy")||modeActive("hard")||modeActive("hikers_dream")) player.modes = player.modes.filter(x => x != "easy" && x != "hard" && x != "extreme" && x != "hikers_dream")
+		if (exitModesOnElem()) player.modes = player.modes.filter(x => x != "easy" && x != "hard" && x != "extreme" && x != "hikers_dream")
 	};
 }
 
@@ -77,9 +81,9 @@ function updateElementaryLayer() {
 	if (!tmp.elm.doGain) tmp.elm.doGain = function (auto=false) {
 		// Gains
 		if (player.options.elc && !auto) {
-			if (!confirm("Are you sure you want to do this? "+((modeActive("easy")||modeActive("hard")||modeActive("hikers_dream"))?"You will convert out of this mode because it has ended!":"It will take some time for you to get back here!"))) return "NO";
-			if (modeActive("easy")||modeActive("hard")||modeActive("hikers_dream")) if (!confirm("THIS WILL SET YOU IN NORMAL MODE AND YOU WILL LOSE YOUR SAVE IN THESE MODES, ARE YOU ABSOLUTELY SURE YOU WANT TO DO THIS????")) return "NO";
-			if (modeActive("easy")||modeActive("hard")||modeActive("hikers_dream")) if (!confirm("THIS IS YOUR LAST CHANCE!! YOU WILL LOSE ALL YOUR EASY, HARD, EXTREME, OR HIKER'S DREAM MODE PROGRESS IF YOU CONTINUE!")) return "NO";
+			if (!confirm("Are you sure you want to do this? "+((exitModesOnElem())?"You will convert out of this mode because it has ended!":"It will take some time for you to get back here!"))) return "NO";
+			if (exitModesOnElem()) if (!confirm("THIS WILL SET YOU IN NORMAL MODE AND YOU WILL LOSE YOUR SAVE IN THESE MODES, ARE YOU ABSOLUTELY SURE YOU WANT TO DO THIS????")) return "NO";
+			if (exitModesOnElem()) if (!confirm("THIS IS YOUR LAST CHANCE!! YOU WILL LOSE ALL YOUR EASY, HARD, EXTREME, OR HIKER'S DREAM MODE PROGRESS IF YOU CONTINUE!")) return "NO";
 		}
 		if (player.elementary.theory.active) {
 			player.elementary.theory.points = player.elementary.theory.points.plus(tmp.thGain?tmp.thGain:new ExpantaNum(0))

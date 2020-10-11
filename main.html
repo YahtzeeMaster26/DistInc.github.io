@@ -177,9 +177,18 @@
 							<button id="NG-Mode" class="btn tb opt ob" onclick="selectMode('NG-')" style="z-index: 1">NG-</button>
 						</td>
 					</tr>
+					<tr>
+						<td>
+							<button id="noEndMode" class="btn tb opt ob" onclick="selectMode('noEnd')" style="z-index: 0">No Mode End</button>
+						</td>
+					</tr>
 				</table>
 				<br /><br />
 				<button class="btn tb opt" onclick="confirmModes()">Activate Modes</button>
+				<br><br>
+				<button class = "btn tb opt" 
+					onclick = "if (!player.modes.includes('noEnd')) player.modes.push('noEnd')"
+				>Convert Save to No End Mode</button>
 			</div>
 			<div id="other" class="optionstab" style="display: none;">
 				<table>

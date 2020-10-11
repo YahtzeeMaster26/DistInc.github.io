@@ -25,8 +25,6 @@ function updateTemp() {
 	if (modeActive("hikers_dream")) {
 		updateTempHikersDream()
 	}
-
-	if (modeActive("NG-")) updateNgmStuff()
 }
 
 function setupHTML() {
