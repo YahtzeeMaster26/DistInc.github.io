@@ -48,6 +48,7 @@ function updateTempEarlyGame() {
 	if (player.rank.gt(1)) tmp.maxVel = tmp.maxVel.plus(1);
 	if (modeActive("hard")) tmp.maxVel = tmp.maxVel.div(2);
 	if (modeActive("easy")) tmp.maxVel = tmp.maxVel.times(3);
+	if (modeActive("NG-")) tmp.maxVel = tmp.maxVel.plus(secondRocketEffect());
 	if (player.rank.gt(2)) tmp.maxVel = tmp.maxVel.times(rank2Eff());
 	if (player.tier.gt(1) && player.rank.gte(3)) tmp.maxVel = tmp.maxVel.times(5);
 	if (player.rank.gt(4)) tmp.maxVel = tmp.maxVel.times(rank4Eff());

@@ -5,7 +5,7 @@ class Layer {
 		this.avail = avail;
 		this.type = type;
 		this.spec = !!spec;
-		this.addS = this.name == "rank" || this.name == "tier";
+		this.addS = false;
 	}
 
 	get gain() {

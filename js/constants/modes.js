@@ -130,7 +130,7 @@ const MODES = {
 		},
 	},
 	"NG-": {
-		desc: "A mode that nerfs stuff.",
+		desc: "A mode that nerfs pre-collapse stuff.",
 		balancing: "",
 		balanceCheck: false,
 		combos: {

@@ -25,6 +25,8 @@ function updateTemp() {
 	if (modeActive("hikers_dream")) {
 		updateTempHikersDream()
 	}
+
+	if (modeActive("NG-")) updateNgmStuff()
 }
 
 function setupHTML() {
@@ -247,10 +249,6 @@ function setupHTML() {
 	let v = new Element("version")
 	v.setTxt(player.version)
 	
-	// Main Link
-	let span = new Element("linkToGame")
-	span.setHTML((betaID==""&&!window.location.href.includes(correctLink))?"Please migrate to <a href='http://"+correctLink+"/DistInc.github.io/main.html'>"+correctLink+"</a><br>":"")
-	
 	// Element Setup
 	tmp.el = {}
 	let all = document.getElementsByTagName("*")
@@ -347,6 +345,7 @@ document.onkeydown = function(e) {
 			break;
 		case 74:
 			if (modeActive("hikers_dream")) refillEnergy()
+			break;
 		case 80:
 			if (shiftDown && INF_TABS.derivatives()) tmp.inf.pantheon.startPurge()
 			else if (TABBTN_SHOWN.pathogens()) tmp.pathogens.maxAll()
