@@ -27,7 +27,7 @@ function getRocketEffect() {
 	if (tmp.inf) if (tmp.inf.upgs.has("9;2")) eff = eff.plus(INF_UPGS.effects["9;2"]());
 	if (tmp.inf) if (tmp.inf.upgs.has("6;10")) eff = eff.times(16)
 	if (player.elementary.foam.unl && tmp.elm) eff = eff.times(tmp.elm.qf.boost20)
-	if (modeActive("NG-")) eff = eff.div(2)
+	eff = eff.div(getMinusNerf("rocketEffect"))
 	return eff;
 }
 
@@ -74,7 +74,7 @@ function updateTempRockets() {
 		if (modeActive("hard")) tmp.rockets.lrm = tmp.rockets.lrm.times(2);
 		if (modeActive("extreme")) tmp.rockets.lrm = tmp.rockets.lrm.div(100);
 	}
-	if (modeActive("NG-")) tmp.rockets.lrm = tmp.rockets.lrm.times(1.5);
+	tmp.rockets.lrm = getMinusNerf("rocketRequirement");
 
 	tmp.rockets.sc = getRocketSoftcapStart();
 	tmp.rockets.canRocket = player.distance.gte(ExpantaNum.mul(LAYER_REQS["rockets"][1], tmp.rockets.lrm));

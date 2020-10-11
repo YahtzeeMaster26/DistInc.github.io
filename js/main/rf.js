@@ -18,13 +18,14 @@ function getFuelEff() {
 		.logBase(2)
 		.plus(1)
 		.pow(0.05);
-	if (modeActive("NG-")) eff = rf
+	if (getMinusId() > -0.5) eff = rf
 		.plus(getFreeFuel())
 		.times(getFuelPow())
 		.plus(1)
 		.pow(0.2)
 	if (modeActive("hard")) eff = eff.sub(0.02);
 	if (modeActive('easy')) eff = eff.plus(0.012);
+	eff = eff.div(getMinusNerf("fuelEffect"))
 	if (tmp.inf) if (tmp.inf.stadium.completed("infinity")) eff = eff.sub(1).times(2).add(1);
 	if (nerfActive("noRF")) eff = new ExpantaNum(1);
 	return eff

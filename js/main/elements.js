@@ -1351,7 +1351,9 @@ function updateQFHTML() {
 }
 
 function updateNgmHtml() {
-	if (modeActive("NG-")) tmp.ngm.rocketEff2.setTxt(` and adding ${showNum(secondRocketEffect())} to maximum velocity.`)
+	if (getMinusId() > -0.5) tmp.ngm.rocketEff2.setTxt(` and adding ${showNum(secondRocketEffect())} to base maximum velocity${
+		getMinusId() > 0.5 ? ` and ${showNum(secondRocketEffect().pow(0.75))} to base acceleration` : ""
+	}.`)
 }
 
 function updateHTML() {

@@ -1931,7 +1931,7 @@ table {
 
 /* new css */
 th {
-	margin: 5%;
+	min-width: 200px;
 }
 
 .rankTierBonus {

@@ -190,7 +190,7 @@ function getRankFP() {
 	if (tmp.ach) if (tmp.ach[43].has) fp = fp.times(1.025)
 	if (player.tr.upgrades.includes(3) && !HCCBA("noTRU")) fp = fp.times(1.1 - (modeActive("NG-") ? 0.07 : 0))
 	if (tmp.rankCheap && modeActive("extreme")) fp = fp.times(getRankCheapEff())
-	if (modeActive("NG-")) fp = fp.div(1.2)
+	fp = fp.div(getMinusNerf("rankScaling"))
 	return fp
 }
 
