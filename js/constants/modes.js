@@ -183,6 +183,33 @@ const MODES = {
 			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 		},
 	},
+
+	elemRankCheap: {
+		desc: "Rank cheapeners are added.",
+		balancing: "",
+		balanceCheck: false,
+		combos: {
+			hard: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			aau: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			na: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			absurd: JSON.parse(JSON.stringify(COMBOS.absurd)),
+			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+		},
+	},
+	elemTierCheap: {
+		desc: "Tier cheapeners are added. The time speed multiplier per tier & rank does not exist.",
+		balancing: "",
+		balanceCheck: false,
+		combos: {
+			hard: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			aau: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			na: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			absurd: JSON.parse(JSON.stringify(COMBOS.absurd)),
+			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+		},
+	},
 };
 
 const MODE_VARS = {
@@ -212,17 +239,20 @@ const MODE_VARS = {
 	"NG--": {
 		rankCheap: new ExpantaNum(0),
 		tierCheap: new ExpantaNum(0),
-	}
+	},
+
+	elemRankCheap: { rankCheap: new ExpantaNum(0) },
+	elemTierCheap: { tierCheap: new ExpantaNum(0) },
 };
 
 const MODE_EX = {
 	extreme: function (source) {
-		source.rankCheap = new ExpantaNum(source.rankCheap);
-		source.furnace.coal = new ExpantaNum(source.furnace.coal);
+		source.rankCheap = new ExpantaNum(source.rankCheap||0);
+		source.furnace.coal = new ExpantaNum(source.furnace.coal||0);
 		source.furnace.upgrades = [
-			new ExpantaNum(source.furnace.upgrades[0]),
-			new ExpantaNum(source.furnace.upgrades[1]),
-			new ExpantaNum(source.furnace.upgrades[2]),
+			new ExpantaNum(source.furnace.upgrades[0]||0),
+			new ExpantaNum(source.furnace.upgrades[1]||0),
+			new ExpantaNum(source.furnace.upgrades[2]||0),
 			new ExpantaNum(source.furnace.upgrades[3]||0),
 			new ExpantaNum(source.furnace.upgrades[4]||0),
 		];
@@ -247,7 +277,7 @@ const MODE_EX = {
 		return source;
 	},
 	hikers_dream: function(source) {
-		source.energy = new ExpantaNum(source.energy)
+		source.energy = new ExpantaNum(source.energy||0)
 		if (source.canRefill===undefined) source.canRefill = true;
 		source.spentMotive = new ExpantaNum(source.spentMotive||0)
 		source.geners = new ExpantaNum(source.geners||1)
@@ -258,6 +288,14 @@ const MODE_EX = {
 	},
 	"NG--": function (source) {
 		source.rankCheap = new ExpantaNum(source.rankCheap||0)
+		source.tierCheap = new ExpantaNum(source.tierCheap||0)
+		return source
+	},
+	elemRankCheap(source) { 
+		source.rankCheap = new ExpantaNum(source.rankCheap||0)
+		return source
+	},
+	elemTierCheap(source) { 
 		source.tierCheap = new ExpantaNum(source.tierCheap||0)
 		return source
 	}

@@ -33,9 +33,9 @@ function getMinusNerf(name, id = getMinusId()) {
 }
 
 function rankCheapenerUnlocked() {
-	return getMinusId() > 0.5 || modeActive("extreme")
+	return getMinusId() > 0.5 || modeActive("extreme") || modeActive("elemRankCheap")
 }
 
 function tierCheapenerUnlocked() {
-	return getMinusId() > 0.5
+	return getMinusId() > 0.5 || modeActive("elemTierCheap")
 }

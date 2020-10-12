@@ -18,5 +18,5 @@ function updateTempTierCheap() {
 	tmp.tierCheap.pow = new ExpantaNum(1);
 	tmp.tierCheap.eff = getTierCheapEff();
 	tmp.tierCheap.eff2 = getTierCheapSecondEff();
-	if (!tmp.rankCheap.updateOnReset) tmp.rankCheap.updateOnReset = updateTempRankCheapCost;
+	if (!tmp.tierCheap.updateOnReset) tmp.tierCheap.updateOnReset = updateTempTierCheapCost;
 }
