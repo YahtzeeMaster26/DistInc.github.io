@@ -168,6 +168,19 @@ const MODES = {
 			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 		},
 	},
+	unscaled: {
+		desc: "All scalings never start. (Scaled, Superscaled, etc.)",
+		balancing: "",
+		balanceCheck: false,
+		combos: {
+			hard: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			aau: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			na: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			absurd: JSON.parse(JSON.stringify(COMBOS.absurd)),
+			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+		},
+	},
 };
 
 const MODE_VARS = {

@@ -76,6 +76,7 @@ function updateAutoTxt(name) {
 
 function autoTick(diff) {
 	// Normal Automation
+	if (infActive) return // no more automation for yoy
 	if (player.automation.unl) {
 		player.automation.scraps = player.automation.scraps
 			.plus(adjustGen(getScrapGain(), "scraps").times(diff))
