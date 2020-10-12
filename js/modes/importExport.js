@@ -16,5 +16,4 @@ function importModes() {
 	} catch (_) {
 		alert("Invalid import")
 	}
-	
 }
