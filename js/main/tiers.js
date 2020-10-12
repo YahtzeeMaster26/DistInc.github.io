@@ -165,6 +165,7 @@ function getTierFP() {
 	if (player.tr.upgrades.includes(20) && !HCCBA("noTRU") && modeActive("extreme")) fp = fp.times(player.rankCheap.plus(1).log10().plus(1).log10().plus(1));
 	if (extremeStadiumActive("cranius", 5)) fp = fp.div(player.rankCheap.plus(1))
 	fp = fp.div(getMinusNerf("tierScaling"))
+	if (getMinusId() > 0.5) fp = fp.times(getTierCheapEff())
 	return fp
 }
 

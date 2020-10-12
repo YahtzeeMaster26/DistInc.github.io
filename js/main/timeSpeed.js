@@ -3,8 +3,8 @@ function updateTempTimeSpeed() {
 	if (modeActive("hard")) tmp.timeSpeed = tmp.timeSpeed.times(0.75);
 	if (modeActive("easy")) tmp.timeSpeed = tmp.timeSpeed.times(2.5);
 	if (modeActive("extreme")) tmp.timeSpeed = tmp.timeSpeed.times(0.7);
+	if (getMinusId() > -0.5) tmp.timeSpeed = tmp.timeSpeed.times(ExpantaNum.pow(1.065, player.tier.plus(player.rank)).pow(getMinusId() > 0.5 ? getTierCheapSecondEff() : 1));
 	tmp.timeSpeed = tmp.timeSpeed.div(getMinusNerf("timeSpeed"));
-	if (getMinusId() > -0.5) tmp.timeSpeed = tmp.timeSpeed.times(ExpantaNum.pow(1.065, player.tier.plus(player.rank)))
 	if (player.tr.upgrades.includes(2) && !HCCBA("noTRU")) tmp.timeSpeed = tmp.timeSpeed.times(tr2Eff());
 	if (player.tr.upgrades.includes(7) && !HCCBA("noTRU")) tmp.timeSpeed = tmp.timeSpeed.times(tr7Eff());
 	if (player.tr.upgrades.includes(18) && !HCCBA("noTRU") && modeActive("extreme"))

@@ -141,6 +141,7 @@ const MODES = {
 			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 		},
+		dis: ["NG--"]
 	},
 	"NG--": {
 		desc: "A mode that nerfs more stuff and adds content. Also includes all NG- stuff.",
@@ -154,6 +155,7 @@ const MODES = {
 			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 		},
+		ext: ["NG-"]
 	},
 	noEnd: {
 		desc: "Modes don't end.",
@@ -207,6 +209,10 @@ const MODE_VARS = {
 		spentMotiveGens: new ExpantaNum(0),
 		bestMotive: new ExpantaNum(0),
 	},
+	"NG--": {
+		rankCheap: new ExpantaNum(0),
+		tierCheap: new ExpantaNum(0),
+	}
 };
 
 const MODE_EX = {
@@ -250,4 +256,9 @@ const MODE_EX = {
 		source.bestMotive = new ExpantaNum(source.bestMotive||0)
 		return source;
 	},
+	"NG--": function (source) {
+		source.rankCheap = new ExpantaNum(source.rankCheap||0)
+		source.tierCheap = new ExpantaNum(source.tierCheap||0)
+		return source
+	}
 };

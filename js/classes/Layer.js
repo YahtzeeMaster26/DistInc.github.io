@@ -29,6 +29,7 @@ class Layer {
 
 	get fcBulk() {
 		if (!(this.type == "forced" || this.type == "semi-forced")) return new ExpantaNum(0);
+		if (this.name === "inf" && player.inf.endorsements.lte(10)) return player.inf.endorsements.plus(1);
 		if (!this.avail) return new ExpantaNum(0);
 		if (this.name == "rf") return tmp[this.tName].bulk.floor();
 		else return tmp[this.tName + (this.addS ? "s" : "")].bulk.floor();
@@ -36,7 +37,8 @@ class Layer {
 
 	reset(force=false, auto=false) {
 		if (!force) {
-			if (!this.avail || this.gain.lt(1)) return;
+			if (tmp[this.tName]) if (tmp[this.tName].updateOnReset !== undefined && !auto) tmp[this.tName].updateOnReset();
+			if (!(this.avail || (!(this.name === "infinity") && player.inf.endorsements.lte(10) && infActive)) || this.gain.lt(1)) return;
 			if (!this.spec) player[this.name] = player[this.name].plus(this.gain);
 			else {
 				let gc = tmp[this.tName].doGain(auto);

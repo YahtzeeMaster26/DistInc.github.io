@@ -342,6 +342,10 @@ function confirmModes() {
 	} else if (modesSelected.length == 2) {
 		let base = MODES[modesSelected[0]];
 		for (let i = 1; i < modesSelected.length; i++) {
+			if (!base.combos[modesSelected[i]]) {
+				startModes(modesSelected);
+				break;
+			}
 			let mode = base.combos[modesSelected[i]];
 			if (mode.balanceCheck)
 				if (

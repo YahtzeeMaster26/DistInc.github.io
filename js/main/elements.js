@@ -713,6 +713,12 @@ function updateRankCheapenersHTML(){
 	tmp.el.rankCheapName.setTxt(getScalingName("rankCheap") + "Rank Cheapener");
 }
 
+function updateTierCheapenersHTML(){
+	tmp.el.tierCheap.setTxt(showNum(player.tierCheap));
+	tmp.el.tierCheapUp.setClasses({ btn: true, locked: !tmp.tierCheap.can });
+	tmp.el.tierCheapReq.setTxt(showNum(tmp.tierCheap.req));
+}
+
 function updateNormalFurnace(){
 	if (fnTab=="nfn") {
 		tmp.el.coal.setTxt(
@@ -789,8 +795,8 @@ function updateEnhanceFurnace(){
 }
 
 function updateOverallExtremeModeHTML(){
-	tmp.el.rankCheapDiv.setDisplay(modeActive('extreme'));
-	if (modeActive("extreme")) {
+	tmp.el.rankCheapDiv.setDisplay(rankCheapenerUnlocked());
+	if (rankCheapenerUnlocked()) {
 		updateRankCheapenersHTML()
 		// The Furnace
 		if (player.tab=="furnace") {
@@ -1143,7 +1149,7 @@ function updateTheoryverseMainHTML(){
 function updateHadronicChallenges(){
 	if (elmTab=="hc") {
 		tmp.el.projHadScore.setTxt(showNum(tmp.elm.hc.currScore))
-		tmp.el.startHC.setTxt((!(!player.elementary.hc.active))?(canCompleteHC()?"Complete Hadronic Challenge!":"Exit Hadronic Challenge early for no reward"):"Start Hadronic Challenge")
+		tmp.el.startHC.setTxt((player.elementary.hc.active)?(canCompleteHC()?"Complete Hadronic Challenge!":"Exit Hadronic Challenge early for no reward"):"Start Hadronic Challenge")
 		tmp.el.bestHadScore.setTxt(showNum(player.elementary.hc.best))
 		tmp.el.hadrons.setTxt(showNum(player.elementary.hc.hadrons))
 		tmp.el.hadronGain.setTxt(showNum(adjustGen(tmp.elm.hc.hadronGain, "hc")))
@@ -1356,6 +1362,13 @@ function updateNgmHtml() {
 	}.`)
 }
 
+function updateNgmmHtml() {
+	tmp.el.tierCheapDiv.setDisplay(tierCheapenerUnlocked());
+	if (tierCheapenerUnlocked()) {
+		updateTierCheapenersHTML()
+	}
+}
+
 function updateHTML() {
 	updateOptionsHTML()
 	updateMainHTML()
@@ -1374,6 +1387,7 @@ function updateHTML() {
 	updateOverallEnergyHTML()
 	updateMiscHTML()
 	updateNgmHtml()
+	updateNgmmHtml()
 	
 	// Features
 	tmp.el.nextFeature.setTxt(tmp.nf === "none" ? "All Features Unlocked!" : tmp.features[tmp.nf].desc);	

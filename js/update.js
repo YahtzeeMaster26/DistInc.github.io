@@ -17,14 +17,12 @@ function updateTemp() {
 	updateTempMisc();
 	updateTempTimeSpeed();
 
-	if (modeActive("extreme")) {
-		updateTempRankCheap();
-		updateTempFurnace();
-	}
+	if (modeActive("extreme")) updateTempFurnace();
+
+	if (rankCheapenerUnlocked()) updateTempRankCheap();
+	if (rankCheapenerUnlocked()) updateTempTierCheap();
 	
-	if (modeActive("hikers_dream")) {
-		updateTempHikersDream()
-	}
+	if (modeActive("hikers_dream")) updateTempHikersDream()
 }
 
 function setupHTML() {
