@@ -28,11 +28,11 @@ const LAYER_RESETS_EXTRA = {
 	rankCheap: ["energy", "canRefill"],
 	tier: ["energy", "canRefill", "rankCheap"],
 	tierCheap: ["energy", "canRefill", "rankCheap"],
-	rockets: ["energy", "canRefill", "rankCheap"],
+	rockets: ["energy", "canRefill", "rankCheap", "tierCheap"],
 	rf: [],
-	collapse: ["energy", "canRefill", "rankCheap", "furnace"],
-	inf: ["energy", "canRefill", "rankCheap", "furnace", "activeFC"],
-	elementary: ["energy", "canRefill", "rankCheap", "furnace", "activeFC", "furnChalls", "extremeStad"]
+	collapse: ["energy", "canRefill", "rankCheap", "furnace", "tierCheap"],
+	inf: ["energy", "canRefill", "rankCheap", "furnace", "activeFC", "tierCheap"],
+	elementary: ["energy", "canRefill", "rankCheap", "furnace", "activeFC", "furnChalls", "extremeStad", "tierCheap"]
 };
 
 const LAYER_REQS = {

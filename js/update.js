@@ -20,7 +20,7 @@ function updateTemp() {
 	if (modeActive("extreme")) updateTempFurnace();
 
 	if (rankCheapenerUnlocked()) updateTempRankCheap();
-	if (rankCheapenerUnlocked()) updateTempTierCheap();
+	if (tierCheapenerUnlocked()) updateTempTierCheap();
 	
 	if (modeActive("hikers_dream")) updateTempHikersDream()
 }

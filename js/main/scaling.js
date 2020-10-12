@@ -35,6 +35,7 @@ function getScalingStart(type, name) {
 			if (player.tr.upgrades.includes(14) && !HCCBA("noTRU")) start = start.plus(tr14Eff()["ss"])
 			if (tmp.inf) if (tmp.inf.upgs.has("1;6")) start = start.plus(2)
 			if (nerfActive("scaledTier")) start = new ExpantaNum(1)
+			if (modeActive("NG--")) start = new ExpantaNum(1)
 		} else if (type=="superscaled") {
 			if (tmp.inf) if (tmp.inf.upgs.has("5;7")) start = start.plus(INF_UPGS.effects["5;7"]());
 		}

@@ -3,7 +3,7 @@ function updateTempTierCheapCost() {
 }
 
 function getTierCheapEff() {
-	return player.tierCheap.pow(1.5).times(0.2).plus(0.7)
+	return player.tierCheap.pow(0.75).times(0.2).plus(1)
 }
 
 function getTierCheapSecondEff() {
