@@ -46,6 +46,7 @@ function loadGame() {
 		updateTempHikersDream();
 		calcInclines();
 	}
+	if (getMinusId() > 0.5) RANK_DESCS[5] = "increase the acceleration and maximum velocity by 35% for each rank up."
 	interval = setInterval(function () {
 		simulateTime();
 	}, 50);
