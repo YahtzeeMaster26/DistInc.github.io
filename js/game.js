@@ -73,6 +73,8 @@ function tickWithoutTS(diff) {
 		if (player.inf.endorsements.gte(10)) player.energy = player.energy.plus(tmp.hd.energyGen.times(diff)).min(getEnergyLim())
 		player.bestMotive = player.bestMotive.max(tmp.hd.motive)
 	}
+
+	if (getMinusId() > 0.5) player.amoebas.amount = player.amoebas.amount.plus(getAmoebaGain().times(diff))
 }
 
 function tickWithTR(diff) {

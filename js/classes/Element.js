@@ -30,7 +30,11 @@ class Element {
 	}
 
 	setDisplay(bool) {
-		this.el.style.display = bool ? "" : "none";
+		try {
+			this.el.style.display = bool ? "" : "none";
+		} catch {
+			console.log("id: " + this.id)
+		}
 	}
 	static setDisplay(id, bool) {
 		new Element(id).setDisplay(bool);

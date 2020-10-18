@@ -21,6 +21,7 @@ function updateTemp() {
 
 	if (rankCheapenerUnlocked()) updateTempRankCheap();
 	if (tierCheapenerUnlocked()) updateTempTierCheap();
+	if (amomebasUnlocked()) updateAmoebaTemp();
 	
 	if (modeActive("hikers_dream")) updateTempHikersDream()
 }

@@ -3,7 +3,7 @@ const minusSeriesNerfs = {
 	tierScaling: [1, 1.3, 1.6],
 	tierCostAdd: [0, 0, 1],
 
-	timeSpeed: [1, 4, 16],
+	timeSpeed: [1, 4, 32],
 
 	rocketRequirement: [1, 1.5, 4], 
 	rocketEffect: [1, 2, 4],
@@ -11,10 +11,12 @@ const minusSeriesNerfs = {
 	secondaryEffectExponent: [0, 0.5, 0.65],
 
 	cubeGain: [1, 10, 100],
-	vanillaTimeUpgrades: [1, 1.3]
+	vanillaTimeUpgrades: [1, 1.3],
+
+	preInfGen: [1, 1, 0.85]
 }
 
-function getMinusId() {
+function getMinusId() { // usually comparisons use <id>-0.5 because rounding idk
 	if (modeActive("NG--")) return 1
 	if (modeActive("NG-")) return 0
 	return -1

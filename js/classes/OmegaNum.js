@@ -1181,7 +1181,6 @@
     var x=new OmegaNum();
     x.array=[0];
     if (!isOmegaNum.test(input)){
-      console.warn(omegaNumError+"Malformed input: "+input);
       x.array=[NaN];
       return x;
     }

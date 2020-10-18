@@ -239,6 +239,10 @@ const MODE_VARS = {
 	"NG--": {
 		rankCheap: new ExpantaNum(0),
 		tierCheap: new ExpantaNum(0),
+		amoebas: {
+			amount: new ExpantaNum(0),
+			upgrades: {0: new ExpantaNum(0)}
+		}
 	},
 
 	elemRankCheap: { rankCheap: new ExpantaNum(0) },
@@ -248,7 +252,9 @@ const MODE_VARS = {
 const MODE_EX = {
 	extreme: function (source) {
 		source.rankCheap = new ExpantaNum(source.rankCheap||0);
+		if (!source.furnance) source.furnace = {}
 		source.furnace.coal = new ExpantaNum(source.furnace.coal||0);
+		if (!source.furnance.upgrades) source.furnace.upgrades = []
 		source.furnace.upgrades = [
 			new ExpantaNum(source.furnace.upgrades[0]||0),
 			new ExpantaNum(source.furnace.upgrades[1]||0),
@@ -257,6 +263,7 @@ const MODE_EX = {
 			new ExpantaNum(source.furnace.upgrades[4]||0),
 		];
 		source.furnace.enhancedCoal = new ExpantaNum(source.furnace.enhancedCoal||0);
+		if (!source.furnance.enhancedUpgrades) source.furnace.enhancedUpgrades = []
 		source.furnace.enhancedUpgrades = [
 			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[0]),
 			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[1]),
@@ -289,6 +296,15 @@ const MODE_EX = {
 	"NG--": function (source) {
 		source.rankCheap = new ExpantaNum(source.rankCheap||0)
 		source.tierCheap = new ExpantaNum(source.tierCheap||0)
+
+		if (!source.amoebas) source.amoebas = {}
+		source.amoebas.amount = new ExpantaNum(source.amoebas.amount||0)
+
+		if (!source.amoebas.upgrades) source.amoebas.upgrades = {}
+		for (const i in Array(3).fill(0)) {
+			source.amoebas.upgrades[i] = new ExpantaNum(source.amoebas.upgrades[i]||0)
+		}
+		
 		return source
 	},
 	elemRankCheap(source) { 

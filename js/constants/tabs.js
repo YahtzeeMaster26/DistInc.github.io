@@ -14,6 +14,9 @@ const TABBTN_SHOWN = {
 	energy: function() {
 		return modeActive("hikers_dream");
 	},
+	amoebas: function() {
+		return getMinusId() > 0.5;
+	},
 	rockets: function () {
 		return tmp.rockets ? tmp.rockets.canRocket || player.rockets.gt(0) || player.rf.gt(0) : false;
 	},

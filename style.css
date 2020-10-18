@@ -1938,3 +1938,29 @@ th {
 	max-width: 450px;
 	border: 1px solid #888;
 }
+
+.btn.amoeba, .btn.amoeba:hover {
+	background-color: #0f6905;
+	background: linear-gradient(to bottom, #0f6905 100%, #0f6905 100%);
+	color: #000000;
+	border-color: #000000;
+}
+
+.btn.amoebaLocked, .btn.amoebaLocked:hover {
+	background-color: #690705;
+	background: linear-gradient(to bottom, #690705 100%, #690705 100%);
+	color: #000000;
+	border-color: #000000;
+	box-shadow: 3px 4px 0px 0px #690705;
+	text-shadow: 0px 1px 0px #690705;
+}
+
+.regularSizeIdk {
+	height: 150px;
+	width: 200px;
+}
+
+#tabbtns tr td {
+	min-width: 0;
+	margin: 0;
+}

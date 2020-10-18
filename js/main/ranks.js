@@ -212,7 +212,7 @@ function rank4Eff() {
 }
 
 function rank5Eff() {
-	return ExpantaNum.pow(getMinusId() > 0.5 ? 1.4 :1.975, player.rank);
+	return ExpantaNum.pow(getMinusId() > 0.5 ? 1.15 : 1.975, player.rank);
 }
 
 function rank8Eff() {

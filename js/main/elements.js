@@ -1367,6 +1367,35 @@ function updateNgmmHtml() {
 	if (tierCheapenerUnlocked()) {
 		updateTierCheapenersHTML()
 	}
+
+	if (player.tab === "amoebas") {
+		tmp.el.amoebaamount.setTxt(showNum(player.amoebas.amount))
+		tmp.el.amoebaspersec.setTxt(showNum(getAmoebaGain()))
+
+		let html = ""
+
+		const upgTmp = tmp.amoebas.upgrades
+
+		for (const i in upgTmp) {
+			const row = upgTmp[i]
+
+			html += "<table><tr>"
+
+			for (const j in row) {
+				const upg = row[j]
+
+				html += `<td><button 
+					class = "${player.amoebas.amount.gte(upg.cost) ? "amoeba" : "amoebaLocked"} btn regularSizeIdk"
+					onmousedown = "buyAmoebaUpg(${i}, ${j})"
+				>${upg.desc}</button></td>`
+			}
+
+			html += "</tr><tr width=\"20\"></tr></table>"
+		}
+
+
+		tmp.el.amoebaUpgrades.setHTML(html)
+	}
 }
 
 function updateHTML() {

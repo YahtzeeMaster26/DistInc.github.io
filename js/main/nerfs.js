@@ -173,6 +173,7 @@ function adjustGen(val, type) {
 		if (extremeStadiumActive("spectra")) e = e.pow(2)
 		exp = exp.times(e);
 	}
+	exp = exp.times(getMinusNerf("preInfGen"))
 	let newVal = val.pow(exp);
 	if (modeActive("hard") && pre_elem) newVal = newVal.div(3.2)
 	if (modeActive("hard") && (type=="pathogens"||(extremeStadiumComplete("aqualon") && preinf))) newVal = newVal.times(3)

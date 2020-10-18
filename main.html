@@ -14,7 +14,7 @@
 			<p class="halfline">&nbsp;</p><span id="linkToGame"></span><span id="nextFeature"></span><p class="halfline">&nbsp;</p>
 			<div id="newsticker"><div id="news" class="slidenews"></div></div><br>
 			<div style="overflow-x: auto;">
-				<table>
+				<table id="tabbtns">
 					<tr>
 						<td><button id="maintabbtn" class="btn tb main" onclick="showTab('main')">Main</button></td>
 						<td>
@@ -36,6 +36,15 @@
 								style="visibility: hidden;"
 							>
 								Energy
+							</button>
+						</td>
+						<td>
+							<button
+								id="amoebastabbtn"
+								class="amoeba btn tb main"
+								onclick="showTab('amoebas')"
+							>
+								Amoebas
 							</button>
 						</td>
 						<td>
@@ -457,6 +466,11 @@
 				<button class="btn en" onclick="respecGens()">Respec The Generators</button><br><br>
 				<button id="buyGen" class="btn locked" onclick="buyGen()"><h2>Upgrade Generators</h2><br><h3>Cost: <span id="genCost"></span> Motive</h3></button>&nbsp;&nbsp;&nbsp;<button id="newGen" class="btn locked" onclick="newGen()"><h2>Buy a new Generator</h2><br><h3>Cost: <span id="newGenCost"></span> Motive</h3></button><br><br>
 			</div>
+		</div>
+		<div id="amoebas" class="tab" style="display: none;">
+			You have <span id="amoebaamount"></span> (<span id="amoebaspersec"></span>/s) amoebas, based on your maximum velocity.
+			<br><br>
+			<div id="amoebaUpgrades"></div>
 		</div>
 		<div id="rockets" class="tab" style="display: none;">
 			<button id="rocketReset" class="btn locked" onclick="tmp.rockets.layer.reset()">
@@ -2010,6 +2024,7 @@
 	<script type="text/javascript" src="js/constants/inf.js"></script>
 	<script type="text/javascript" src="js/constants/elm.js"></script>
 	<script type="text/javascript" src="js/constants/news.js"></script>
+	<script type="text/javascript" src="js/constants/amoeba.js"></script>
 
 	<!-- Primary Classes -->
 	<script type="text/javascript" src="js/classes/Element.js"></script>
@@ -2061,6 +2076,7 @@
 	<script type="text/javascript" src="js/modes/minusSeriesNerfs.js"></script>
 	<script type="text/javascript" src="js/modes/tierCheapener.js"></script>
 	<script type="text/javascript" src="js/modes/importExport.js"></script>
+	<script type="text/javascript" src="js/modes/amoeba.js"></script>
 
 	<!-- Extreme Mode File Data -->
 
