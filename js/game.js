@@ -105,6 +105,7 @@ function tickWithTS(diff) {
 }
 
 function gameLoop(diff) {
+	if (modeActive("easy") && getMinusId() > -0.5 && !modeActive("0xTimeSpeed")) trigger0xSpeed()
 	visUpdTicks++
 	if (needUpdate) updating = true
 	updateBeforeTick();

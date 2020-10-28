@@ -41,3 +41,8 @@ function rankCheapenerUnlocked() {
 function tierCheapenerUnlocked() {
 	return getMinusId() > 0.5 || modeActive("elemTierCheap")
 }
+
+function trigger0xSpeed() {
+	alert("Your save has been found to be using Easy mode and NG-, defeating the purpose of the NG- series of mods.")
+	player.modes.push("0xTimeSpeed")
+}
