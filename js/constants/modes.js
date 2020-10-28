@@ -252,9 +252,9 @@ const MODE_VARS = {
 const MODE_EX = {
 	extreme: function (source) {
 		source.rankCheap = new ExpantaNum(source.rankCheap||0);
-		if (!source.furnance) source.furnace = {}
+		if (!source.furnace) source.furnace = {}
 		source.furnace.coal = new ExpantaNum(source.furnace.coal||0);
-		if (!source.furnance.upgrades) source.furnace.upgrades = []
+		if (!source.furnace.upgrades) source.furnace.upgrades = []
 		source.furnace.upgrades = [
 			new ExpantaNum(source.furnace.upgrades[0]||0),
 			new ExpantaNum(source.furnace.upgrades[1]||0),
@@ -263,7 +263,7 @@ const MODE_EX = {
 			new ExpantaNum(source.furnace.upgrades[4]||0),
 		];
 		source.furnace.enhancedCoal = new ExpantaNum(source.furnace.enhancedCoal||0);
-		if (!source.furnance.enhancedUpgrades) source.furnace.enhancedUpgrades = []
+		if (!source.furnace.enhancedUpgrades) source.furnace.enhancedUpgrades = []
 		source.furnace.enhancedUpgrades = [
 			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[0]),
 			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[1]),
