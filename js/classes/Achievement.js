@@ -21,8 +21,11 @@ class Achievement {
 				txt += "boolean" + l[i+2]
 			}
 		}
-    
-		if (txt.indexOf("showNum") != -1) {
+		
+		if (txt.indexOf("showNup") != -1) {
+			let txt2 = txt.split("showNup")[1];
+			return txt.split("showNup")[0] + showNum(txt2.slice(1, txt2.indexOf("]"))) + txt2.split("]")[1];
+		} else if (txt.indexOf("showNum") != -1) {
 			let txt2 = txt.split("showNum")[1];
 			return txt.split("showNum")[0] + showNum(txt2.slice(1, txt2.indexOf(")"))) + txt2.split(")")[1];
 		} else if (txt.indexOf("formatDistance") != -1) {
@@ -66,5 +69,10 @@ class Achievement {
 			player.achievements.push(this.name);
 			notifier.success("Achievement gotten: " + ACH_DATA.names[this.name]);
 		}
+	}
+	
+	static hasRow(x) { 
+		for (let i=1;i<=ACH_DATA.cols;i++) if (!player.achievements.includes(x*10+i)) return false;
+		return true;
 	}
 }

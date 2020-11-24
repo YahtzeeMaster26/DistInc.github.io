@@ -3,6 +3,7 @@
 var player = transformToEN(DEFAULT_START, DEFAULT_START);
 var loaded = false;
 var interval;
+var intervalPerSec;
 var autoTimes = {};
 for (let i = 0; i < Object.keys(ROBOT_REQS).length; i++) autoTimes[Object.keys(ROBOT_REQS)[i]] = new ExpantaNum(0);
 var tmp = {};
@@ -20,12 +21,17 @@ var elmTab = "fermions";
 var bosTab = "gauge";
 var hcTab = "mainHC";
 var foamTab = "qf1";
+var skyTab = "skyrmions";
+var statTab = "mainStats";
+var statScalingsShown = false;
+var pionSel = 0;
+var spinorSel = 0;
+var ttaid = 1;
 var gluonTab = "r";
 var thTab = "tv";
 var enTab = "mainEN";
 var autoRobotTarget = 0
-var betaID = ""; // beta1.8
-var checkForBetas = {"beta1.8": 1.8}
+var betaID = ""; //beta1.91
 var needUpdate = true
 var updating = false
 var visUpdTicks = 1/0
@@ -75,6 +81,10 @@ function tickWithoutTS(diff) {
 	}
 
 	if (getMinusId() > 0.5) player.amoebas.amount = player.amoebas.amount.plus(getAmoebaGain().times(diff))
+	if (modeActive("extreme")&&player.elementary.sky.unl) {
+		if (tmp.fn.pl.exp.gte(1)) player.plasma.amount = player.plasma.amount.root(tmp.fn.pl.exp).plus(diff).pow(tmp.fn.pl.exp);
+		player.plasma.whiteFlame = player.plasma.whiteFlame.plus(adjustGen(tmp.fn.pl.wfGain, "plasma").times(diff));
+	}
 }
 
 function tickWithTR(diff) {
@@ -83,6 +93,12 @@ function tickWithTR(diff) {
 		.min(nerfActive("maxVelActive") ? tmp.maxVel : 1 / 0)
 		.max(0);
 	player.distance = player.distance.plus(adjustGen(player.velocity, "dist").times(modeActive("hikers_dream")?tmp.hd.enEff:1).times(diff)).max(0);
+	let fc = futureCapped()
+	if (fc) {
+		player.velocity = player.velocity.min(DISTANCES.mlt)
+		player.distance = player.distance.min(DISTANCES.mlt)
+		if (player.distance.gte(DISTANCES.mlt)) end1point9()
+	}
 	player.inf.bestDist = player.inf.bestDist.max(player.distance)
 	player.bestDistance = player.bestDistance.max(player.distance)
 	player.bestV = player.bestV.max(player.velocity)
@@ -109,7 +125,7 @@ function gameLoop(diff) {
 	visUpdTicks++
 	if (needUpdate) updating = true
 	updateBeforeTick();
-	if (showContainer && !needUpdate) {
+	if (showContainer && !needUpdate && !infActive) {
 		tickWithoutTS(diff);
 		tickWithTS(diff.times(nerfActive("noTS") ? 1 : tmp.timeSpeed));
 	}

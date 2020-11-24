@@ -1,3 +1,15 @@
+function saveOptions() {
+	localStorage.setItem("dist-inc-options" + betaID, btoa(JSON.stringify(player.options)));
+}
+
+function loadOptions() {
+	let optData = localStorage.getItem("dist-inc-options" + betaID)
+	if (!optData) return;
+	let name = player.options.name;
+	player.options = JSON.parse(atob(optData));
+	player.options.name = name;
+}
+
 function getAllSaves() {
 	let local = localStorage.getItem("dist-inc-saves" + betaID)
 	let all = JSON.parse(atob(local ? local : btoa(JSON.stringify([]))));
@@ -71,24 +83,6 @@ function importSave() {
 	}
 }
 
-function checkForBeta() {
-	for (let i=0;i<Object.keys(checkForBetas).length;i++) {
-		let key = Object.keys(checkForBetas)[i];
-		let data = localStorage.getItem("dist-inc"+key)
-		if (!(data===null||data===undefined)) if (confirm("We have detected that you had a save in the beta branch of version "+checkForBetas[key]+". Would you like to recover that save and bring it here?")) {
-			let s = transformToEN(JSON.parse(atob(data)));
-			let all = getAllSaves();
-			if (player.options.saveImp=="overwrite" || s.saveID==player.saveID) s.savePos = deepCopy(player.savePos)
-			else {
-				if (all.indexOf(null) > -1) s.savePos = all.indexOf(null) + 1;
-				else s.savePos = all.length + 1;
-				if (s.savePos > MAX_SAVES) s.savePos = MAX_SAVES;
-			}
-			setSave(s);
-		}
-	}
-}
-
 function exportSave() {
 	let toExport = btoa(JSON.stringify(ENString(player)));
 	notifier.info("Save exported");
@@ -120,12 +114,12 @@ function setDropdown(dropdown, els, load=false) {
 			html += el.info + "<br>";
 			for (let x = 1; x <= el.buttons; x++)
 				html +=
-					"<button class='btn tb opt' onclick='" +
+					"<button class='btn tb opt"+"' onclick='" +
 					el["onclick" + x] +
-					"'>" +
+					"' "+">" +
 					el["txt" + x] +
 					"</button> ";
-		} else html += "<button class='btn tb opt' onclick='" + el.onclick + "'>" + el.txt + "</button>";
+		} else html += "<button class='btn tb opt tt' onclick='" + el.onclick + "'>" + el.txt + "</button>";
 		if (load) html += "<br><br>";
 	}
 	dropdown.setHTML(html + "<br><button class='btn tb opt' style='visibility: hidden;'></button>");
@@ -152,7 +146,7 @@ function changeOpt(name, type) {
 					name +
 					"&quot;] = " +
 					x +
-					"; this.parentElement.style.display=&quot;none&quot;"
+					"; this.parentElement.style.display=&quot;none&quot;; saveOptions();"
 			};
 	} else if (type == 2) {
 		let types = OPT_NAMES[name];
@@ -164,7 +158,7 @@ function changeOpt(name, type) {
 					name +
 					"&quot;] = &quot;" +
 					types[x] +
-					"&quot;; this.parentElement.style.display=&quot;none&quot;"
+					"&quot;; this.parentElement.style.display=&quot;none&quot;; saveOptions();"
 			};
 	} else if (type == 3) {
 		let old = deepCopy(player.options[name])
@@ -173,6 +167,7 @@ function changeOpt(name, type) {
 		let d2 = new Element("dropDown2")
 		d2.changeStyle("display", "none");
 		save();
+		saveOptions();
 		return;
 	}
 	if (type>0) {
@@ -187,7 +182,9 @@ function getInfo(sav) {
 	else if (sav.modes.length > 0) mds = capitalFirst(sav.modes[0].replace("_"," "));
 	else mds = "None";
 	let info = "Modes: " + mds + "<br>";
-	if (sav.elementary?(sav.elementary.foam?sav.elementary.foam.unl:false):false) {
+	if (sav.elementary?(sav.elementary.sky?sav.elementary.sky.unl:false):false) {
+		info += "Skyrmions: "+showNum(new ExpantaNum(sav.elementary.sky.amount))+", Pions: "+showNum(new ExpantaNum(sav.elementary.sky.pions.amount))+", Spinors: "+showNum(new ExpantaNum(sav.elementary.sky.spinors.amount))+", "
+	} else if (sav.elementary?(sav.elementary.foam?sav.elementary.foam.unl:false):false) {
 		info += "Quantum Foam: "+showNum(new ExpantaNum(sav.elementary.foam.amounts[0]))+", "
 		if (sav.elementary.entropy?sav.elementary.entropy.unl:false) {
 			info += "Entropy: "+showNum(new ExpantaNum(sav.elementary.entropy.amount))+", "

@@ -1,3 +1,5 @@
+var newsTimeouts = []
+
 function updateTemp() {
 	updateTempEarlyGame();
 	updateTempRanks();
@@ -40,6 +42,27 @@ function setupHTML() {
 		table += "</tr>";
 	}
 	achTable.setHTML(table);
+	
+	// Rank/Tier Stats
+	let rankTable = new Element("rankStats")
+	table = "<div class='flexTopRow'><div class='flexContainer'>"
+	for (let i=0;i<Object.keys(RANK_DESCS).length;i++) {
+		let ranks = Object.keys(RANK_DESCS)[i]
+		table += "<div id='rankReward"+ranks+"' class='rtReward'>"
+		table += "Rank "+showNum(parseInt(ranks)+1)+": "+(RANK_DESCS[ranks][0].toUpperCase() + RANK_DESCS[ranks].slice(1))
+		if (window["rank"+ranks+"Eff"]) table += "<br>Currently: <b><span id='rankEff"+ranks+"'></span></b>x"
+		table += "</div>"
+	}
+	table += "</div><div class='flexContainer'>"
+	for (let i=0;i<Object.keys(TIER_DESCS).length;i++) {
+		let tiers = Object.keys(TIER_DESCS)[i]
+		table += "<div id='tierReward"+tiers+"' class='rtReward'>"
+		table += "Tier "+showNum(parseInt(tiers)+1)+": "+(TIER_DESCS[tiers][0].toUpperCase() + TIER_DESCS[tiers].slice(1))
+		if (window["tier"+tiers+"Eff"]) table += "<br>Currently: <b><span id='tierEff"+tiers+"'></span></b>x"
+		table += "</div>"
+	}
+	table += "</div></div>"
+	rankTable.setHTML(table)
 
 	// Time Reversal Upgrade Table
 	let trTable = new Element("trTable");
@@ -122,7 +145,7 @@ function setupHTML() {
 		autos +=
 			"<div id='automatorDiv-" +
 			Object.keys(AUTOMATORS)[i] +
-			"'>" +
+			"' class='automator' style='border-color: "+AUTOMATOR_BORDER[Object.keys(AUTOMATORS)[i]]+";'>" +
 			"<label for='automator-" + Object.keys(AUTOMATORS)[i] + "'>" +
 			(dp.includes("auto") || dp.includes("Auto") ? dp : "Auto-" + dp) +
 			"</label>" +
@@ -138,7 +161,7 @@ function setupHTML() {
 				autos += "<br><input type='number' id='autoTxt"+name+"' onchange='updateAutoTxt(&quot;"+name+"&quot;)' style='color: black;'></input><br>"
 			}
 		}
-		autos += "</div><br>";
+		autos += "</div>";
 	}
 	au.setHTML(autos);
 	for (let i = 0; i < Object.keys(player.automators).length; i++) {
@@ -235,12 +258,21 @@ function setupHTML() {
 		let el;
 		el = new Element(tab+"HC")
 		
-		let html = "<br><span id='hcSelectorSpan"+name+"'>"+HC_TITLE[name]+": <input id='hcSelector"+name+"' style='color: black;' type='"+data[0]+"' onchange='updateHCSelector(&quot;"+name+"&quot;)' "+(data[0]=="range"?("min='"+data[1][0]+"' max='"+data[1][1]+"'"):"")+"></input>"+(HC_CHALLS.includes(name)?("<span id='hcChall"+name+"'><b>(hover for info)</b></span>"):"")+"<br>"
+		let html = "<br><span id='hcSelectorSpan"+name+"'>"+HC_TITLE[name]+": <input id='hcSelector"+name+"' style='color: black;' type='"+data[0]+"' onchange='updateHCSelector(&quot;"+name+"&quot;)' "+(data[0]=="range"?("min='"+data[1][0]+"' max='"+data[1][1]+"'"):"")+"></input>"+(HC_CHALLS.includes(name)?("<span id='hcChall"+name+"'><b>(hover for info)</b></span>"):"")
+		if (HC_EXTREME_CHALLS.includes(name)) html += "<span id='hcExtrChall"+name+"'><b>(hover for info)</b></span>"
+		html += "<br>"
 		if (data[0]=="range") html += "<span id='hcCurrent"+name+"'></span><br>"
 		html += "</span>"
 		el.addHTML(html)
 	}
 	updateHCSelectorInputs()
+	
+	// Pion/Spinor Fields
+	setupSkyField("pion")
+	setupSkyField("spinor")
+	
+	// Plasma Boosts
+	setupPlasmaBoosts()
 	
 	// Version
 	let v = new Element("version")
@@ -300,6 +332,7 @@ function updateUnlocks() {
 	if (player.distance.gte(HC_REQ[0]) && player.inf.endorsements.gte(HC_REQ[1])) player.elementary.hc.unl = true
 	if (player.distance.gte(FOAM_REQ)) player.elementary.foam.unl = true
 	if (player.elementary.foam.maxDepth.gte(5)) player.elementary.entropy.unl = true;
+	if (player.distance.gte(SKY_REQ[0]) && player.elementary.fermions.quarks.amount.gte(SKY_REQ[1]) && player.elementary.fermions.leptons.amount.gte(SKY_REQ[2])) player.elementary.sky.unl = true;
 }
 
 document.onkeyup = function(e) {
@@ -334,7 +367,10 @@ document.onkeydown = function(e) {
 			break;
 		case 69: // Nice.
 			if (shiftDown && TABBTN_SHOWN.elementary()) tmp.elm.layer.reset()
-			else if (TABBTN_SHOWN.inf() && player.inf.endorsements.gte(10)) tmp.inf.layer.reset()
+			else {
+				if (infActive) skipInfAnim();
+				else if (TABBTN_SHOWN.inf() && player.inf.endorsements.gte(10)) tmp.inf.layer.reset();
+			}
 			break;
 		case 70: 
 			if (shiftDown && TABBTN_SHOWN.furnace() && tmp.fn) tmp.fn.bfReset()
@@ -352,7 +388,8 @@ document.onkeydown = function(e) {
 			else tmp.ranks.layer.reset()
 			break;
 		case 83: 
-			if (TH_TABS.strings()) entangleStrings();
+			if (shiftDown && ELM_TABS.sky()) skyrmionReset();
+			else if (TH_TABS.strings()) entangleStrings();
 			break;
 		case 84: 
 			if (shiftDown && ELM_TABS.theory()) tmp.elm.theory.start()
@@ -371,6 +408,7 @@ function getNews() {
 			else return data[1]();
 		})()
 	);
+	
 	let txt = "";
 	if (possible.length == 0) txt = "Sorry, we are out of news for the day... try again later?";
 	else if (possible.length == 1) txt = possible[0][0];
@@ -378,17 +416,34 @@ function getNews() {
 		let n = Math.floor(Math.random() * possible.length);
 		txt = possible[n][0];
 	}
+	
 	return txt;
 }
 
-document.getElementById("news").addEventListener("animationend", function(){
-	if (!player.options.newst) return
-	document.getElementById("news").innerHTML = "";
-	document.getElementById("news").classList.remove("slidenews");
-	document.documentElement.style.setProperty("--news-right-start", 0 - NEWS_ADJ + "%");
-	setTimeout(function(){
-		document.getElementById("news").innerHTML = getNews();
-		document.getElementById("news").classList.add("slidenews");
-	}, 1000)		
-})
-document.getElementById("news").innerHTML = getNews();
+function doNews() {
+	for (let i=0;i<newsTimeouts.length;i++) {
+		clearTimeout(newsTimeouts[i])
+		delete newsTimeouts[i]
+	}
+	let s = document.getElementById("news");
+	s.innerHTML = getNews();
+	
+	// Part of the AD NG+++ news ticker code was used for this, full credit to Aarex for that :)
+	let parentWidth = s.parentElement.clientWidth;
+	s.style.transition = '';
+	s.style.transform = 'translateX('+parentWidth+'px)';
+	newsTimeouts.push(setTimeout( function() {
+		let dist = s.parentElement.clientWidth + s.clientWidth + 20;
+		let rate = 100;
+		let transformDuration = dist / rate;
+		s.style.transition = 'transform '+transformDuration+'s linear';
+		let textWidth = s.clientWidth;
+		s.style.transform = 'translateX(-'+(textWidth+5)+'px)';
+		newsTimeouts.push(setTimeout(function() {
+			s.innerHTML = "";
+			doNews();
+		}, Math.ceil(transformDuration * 1000)));
+	}, 100));	
+}
+
+doNews();
