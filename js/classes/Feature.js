@@ -13,7 +13,7 @@ class Feature {
 			? data.progress
 			: function () {
 					return 0;
-			  };
+				};
 		this.res_amt = data.res_amt || 1;
 		this.specRes = data.specRes || [];
 	}
