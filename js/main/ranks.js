@@ -186,7 +186,7 @@ function updateTempRanks() {
 function getRankFP() {
 	let fp = new ExpantaNum(1);
 	if (player.tier.gt(0)) fp = fp.times(1.25)
-	if (player.tier.gt(2)) fp = fp.times(tier3Eff())
+	if (player.tier.gt(2)) fp = fp.times(tier2Eff())
 	if (tmp.ach) if (tmp.ach[43].has) fp = fp.times(1.025)
 	if (player.tr.upgrades.includes(3) && !HCCBA("noTRU")) fp = fp.times(1.1 - (modeActive("NG-") ? 0.07 : 0))
 	if (tmp.rankCheap && rankCheapenerUnlocked()) fp = fp.times(getRankCheapEff())

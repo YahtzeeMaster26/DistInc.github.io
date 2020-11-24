@@ -24,6 +24,7 @@ class Layer {
 			if (player.inf.pantheon.purge.active || HCCBA("purge")) gain = gain.plus(1).pow(gain.plus(1).times(10).slog(10).pow(-1)).min(gain)
 			if (modeActive("extreme") && !modeActive("hikers_dream")) gain = gain.sub(2).max(0)
 		}
+		if (modeActive("hikers_dream") && player.elementary.theory.depth.gte(10) && player.elementary.theory.active && gain.gt(1)) gain = gain.pow(3).root(player.elementary.theory.depth)
 		return gain.floor();
 	}
 
@@ -45,8 +46,9 @@ class Layer {
 				if (gc == "NO") return;
 			}
 		}
+		if (LAYER_RESETS_NOTHING[this.name]()) return;
 		let prev = transformToEN(player, DEFAULT_START);
-		for (let i = 0; i < LAYER_RESETS[this.name].length; i++)
+		for (let i = 0; i < LAYER_RESETS[this.name].length; i++) 
 			player[LAYER_RESETS[this.name][i]] =
 				DEFAULT_START[LAYER_RESETS[this.name][i]] instanceof Object &&
 				!(DEFAULT_START[LAYER_RESETS[this.name][i]] instanceof ExpantaNum)
@@ -59,6 +61,8 @@ class Layer {
 		needUpdate = true
 
 		if (tmp[this.tName] && tmp[this.tName].updateOnReset !== undefined && !auto) tmp[this.tName].updateOnReset()
+		updateBeforeTick();
+		updateAfterTick();
 	}
 
 	bulk(mag = new ExpantaNum(1)) {

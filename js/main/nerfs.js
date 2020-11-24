@@ -83,7 +83,7 @@ function nerfActive(name) {
 			active ||
 			(tmp.inf
 				? (((tmp.inf.stadium.active("solaris") && (!modeActive("extreme") || player.inf.stadium.current=="solaris")) ||
-				  tmp.inf.stadium.active("drigganiz", 5)) && !((player.inf.pantheon.purge.active||HCCBA("purge"))&&(tmp.ach[147].has||modeActive("extreme"))))
+					tmp.inf.stadium.active("drigganiz", 5)) && !((player.inf.pantheon.purge.active||HCCBA("purge"))&&(tmp.ach[147].has||modeActive("extreme"))))
 				: true);
 		if (HCCBA("noCad")) active = true
 		return active;
@@ -106,8 +106,8 @@ function nerfActive(name) {
 			active ||
 			(tmp.inf
 				? ((tmp.inf.stadium.active("drigganiz") ||
-				  tmp.inf.stadium.active("eternity", 6)) && !((tmp.ach[147].has||modeActive("extreme"))&&(player.inf.pantheon.purge.active||HCCBA("purge")))) ||
-				  tmp.inf.stadium.active("reality", 6)
+					tmp.inf.stadium.active("eternity", 6)) && !((tmp.ach[147].has||modeActive("extreme"))&&(player.inf.pantheon.purge.active||HCCBA("purge")))) ||
+					tmp.inf.stadium.active("reality", 6)
 				: true);
 		if (HCCBA("noPU")) active = true
 		return active;
@@ -162,20 +162,33 @@ function adjustGen(val, type) {
 		type == "heavenlyChips" ||
 		type == "demonicSouls" ||
 		type == "derv" || preinf;
-	let post_elem = type == "quarks" || type == "leptons" || type == "gauge" || type == "scalar" || type=="ss" || type=="str" || type=="preons" || type=="accelerons" || type=="inflatons" || type=="hc";
+	let post_elem = type == "quarks" || type == "leptons" || type == "gauge" || type == "scalar" || type=="ss" || type=="str" || type=="preons" || type=="accelerons" || type=="inflatons" || type=="hc" || type=="foam" || type=="sky" || type=="plasma";
 	let exp = new ExpantaNum(1);
 	if (player.elementary.theory.supersymmetry.unl && pre_elem && tmp.elm) val = new ExpantaNum(val).times(new ExpantaNum(tmp.elm.theory.ss.waveEff||1).max(1))
 	if (nerfActive("preInf.1") && preinf) exp = exp.div(10);
 	if ((player.inf.pantheon.purge.active||HCCBA("purge")) && type == "vel") exp = exp.div(modeActive('extreme')?0.925:3);
-	if ((player.elementary.theory.active||HCTVal("tv").gt(-1)) && pre_elem) exp = exp.times(tmp.elm.theory.nerf)
+	if ((player.elementary.theory.active||HCTVal("tv").gt(-1))) {
+		if (pre_elem) {
+			if (!tmp.elm) exp = new ExpantaNum(0);
+			else exp = exp.times(tmp.elm.theory.nerf)
+		}
+	}
 	if (modeActive("extreme") && preinf) {
 		let e = new ExpantaNum(FCComp(4)?0.825:0.75);
+		if (player.elementary.entropy.upgrades.includes(23)) e = new ExpantaNum(0.875);
 		if (extremeStadiumActive("spectra")) e = e.pow(2)
 		exp = exp.times(e);
 	}
 	exp = exp.times(getMinusNerf("preInfGen"))
+	if (modeActive("extreme") && post_elem && type!="scalar") exp = exp.times(ExpantaNum.gte(player.elementary.theory.tree.upgrades[37]||0, 1)?.95:.9)
 	let newVal = val.pow(exp);
-	if (modeActive("hard") && pre_elem) newVal = newVal.div(3.2)
+	if (modeActive("hard") && (type=="inflatons"||type=="foam"||type=="sky")) newVal = newVal.div(5)
+	else if (modeActive("hard") && !modeActive("extreme")) newVal = newVal.div(3.2)
+	if (type=="foam"&&modeActive("extreme")) {
+		let start = getExtremeFoamSCStart();
+		if (newVal.gte(start)) newVal = newVal.times(start.pow(3)).pow(.25)
+	}
+	if (preinf && modeActive("extreme") && newVal.gte("1e100000000")) newVal = newVal.times("1e400000000").pow(.2);
 	if (modeActive("hard") && (type=="pathogens"||(extremeStadiumComplete("aqualon") && preinf))) newVal = newVal.times(3)
 	if (extremeStadiumActive("aqualon") && preinf) newVal = newVal.div(9e15)
 	return newVal;

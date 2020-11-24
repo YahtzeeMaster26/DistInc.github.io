@@ -36,8 +36,8 @@ const COMBOS = {
 const MODES = {
 	hard: {
 		desc:
-			"The game is harder & slower, with slight compensation to help you slowly grind to the end (ends at Elementary).",
-		balancing: "balanced up to Elementary",
+			"The game is harder & slower, with slight compensation to help you slowly grind to the end.",
+		balancing: "balanced up to endgame",
 		balanceCheck: false,
 		combos: {
 			aau: JSON.parse(JSON.stringify(COMBOS.hard_aau)),
@@ -89,8 +89,8 @@ const MODES = {
 		}
 	},
 	easy: {
-		desc: "This mode is easier & faster to help you reach the end faster (ends at Elementary).",
-		balancing: "balanced up to Elementary",
+		desc: "This mode is easier & faster to help you reach the end faster.",
+		balancing: "balanced up to endgame",
 		balanceCheck: false,
 		combos: {
 			hard: JSON.parse(JSON.stringify(COMBOS.easy_hard)),
@@ -103,8 +103,8 @@ const MODES = {
 	},
 	extreme: {
 		desc:
-			"This mode is an extension of Hard Mode that makes it even more difficult, however adds The Furnace (a new feature) to compensate for this (ends at Elementary).",
-		balancing: "balanced up to Elementary",
+			"This mode is an extension of Hard Mode that makes it even more difficult, however adds The Furnace (a new feature) to compensate for this.",
+		balancing: "balanced up to endgame",
 		balanceCheck: false,
 		combos: {
 			hard: JSON.parse(JSON.stringify(COMBOS.extreme)),
@@ -117,8 +117,8 @@ const MODES = {
 		ext: ["hard"]
 	},
 	hikers_dream: {
-		desc: "You have to climb up a hill that gets steeper and steeper as you go (making progress slow down drastically), however there are new buffs to compensate for this steep hill (ends at Elementary).",
-		balancing: "balanced up to Elementary",
+		desc: "You have to climb up a hill that gets steeper and steeper as you go (making progress slow down drastically), however there are new buffs to compensate for this steep hill.",
+		balancing: "balanced up to endgame",
 		balanceCheck: false,
 		combos: {
 			hard: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
@@ -158,7 +158,7 @@ const MODES = {
 		ext: ["NG-"]
 	},
 	noEnd: {
-		desc: "Modes don't end.",
+		desc: "Extreme, hiker's dream, and extreme dream modes don't end. UPDATE: Due to the v1.91 update, this mode is no longer needed for it's effect, and is only kept for internal reasons.",
 		balancing: "",
 		balanceCheck: false,
 		combos: {
@@ -238,6 +238,16 @@ const MODE_VARS = {
 		activeFC: 0,
 		furnChalls: [],
 		extremeStad: [],
+		magma: {
+			done: false,
+			amount: new ExpantaNum(0),
+			ref: new ExpantaNum(0),
+		},
+		plasma: {
+			amount: new ExpantaNum(0),
+			whiteFlame: new ExpantaNum(0),
+			boosts: new ExpantaNum(0),
+		},
 	},
 	hikers_dream: {
 		energy: new ExpantaNum(100),
@@ -264,36 +274,50 @@ const MODE_VARS = {
 
 const MODE_EX = {
 	extreme: function (source) {
-		source.rankCheap = new ExpantaNum(source.rankCheap||0);
-		if (!source.furnace) source.furnace = {}
-		source.furnace.coal = new ExpantaNum(source.furnace.coal||0);
-		if (!source.furnace.upgrades) source.furnace.upgrades = []
+		source.rankCheap = new ExpantaNum(source.rankCheap);
+		source.furnace.coal = new ExpantaNum(source.furnace.coal);
+		let fu = source.furnace.upgrades;
 		source.furnace.upgrades = [
-			new ExpantaNum(source.furnace.upgrades[0]||0),
-			new ExpantaNum(source.furnace.upgrades[1]||0),
-			new ExpantaNum(source.furnace.upgrades[2]||0),
-			new ExpantaNum(source.furnace.upgrades[3]||0),
-			new ExpantaNum(source.furnace.upgrades[4]||0),
+			new ExpantaNum(fu[0]),
+			new ExpantaNum(fu[1]),
+			new ExpantaNum(fu[2]),
+			new ExpantaNum(fu[3]||0),
+			new ExpantaNum(fu[4]||0),
 		];
 		source.furnace.enhancedCoal = new ExpantaNum(source.furnace.enhancedCoal||0);
-		if (!source.furnace.enhancedUpgrades) source.furnace.enhancedUpgrades = []
+		let eu = (source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])
 		source.furnace.enhancedUpgrades = [
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[0]),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[1]),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[2]),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[3]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[4]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[5]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[6]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[7]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[8]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[9]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[10]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[11]||0),
-			new ExpantaNum((source.furnace.enhancedUpgrades||[0,0,0,0,0,0,0,0,0,0,0,0,0])[12]||0),
+			new ExpantaNum(eu[0]),
+			new ExpantaNum(eu[1]),
+			new ExpantaNum(eu[2]),
+			new ExpantaNum(eu[3]||0),
+			new ExpantaNum(eu[4]||0),
+			new ExpantaNum(eu[5]||0),
+			new ExpantaNum(eu[6]||0),
+			new ExpantaNum(eu[7]||0),
+			new ExpantaNum(eu[8]||0),
+			new ExpantaNum(eu[9]||0),
+			new ExpantaNum(eu[10]||0),
+			new ExpantaNum(eu[11]||0),
+			new ExpantaNum(eu[12]||0),
 		];
 		source.furnace.blueFlame = new ExpantaNum(source.furnace.blueFlame);
 		if (!source.extremeStad) source.extremeStad = []
+		
+		let mag = source.magma||{}
+		source.magma = {
+			done: mag.done||false,
+			amount: new ExpantaNum(mag.amount||0),
+			ref: new ExpantaNum(mag.ref||0),
+		}
+		
+		let pl = source.plasma||{}
+		source.plasma = {
+			amount: new ExpantaNum(pl.amount||0),
+			whiteFlame: new ExpantaNum(pl.whiteFlame||0),
+			boosts: new ExpantaNum(pl.boosts||0),
+		}
+		
 		return source;
 	},
 	hikers_dream: function(source) {
