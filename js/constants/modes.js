@@ -223,6 +223,19 @@ const MODES = {
 			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
 		},
 	},
+	trueNA: {
+		desc: "You can't earn achievements.",
+		balancing: "",
+		balanceCheck: false,
+		combos: {
+			hard: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			aau: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			na: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			absurd: JSON.parse(JSON.stringify(COMBOS.absurd)),
+			easy: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+			extreme: JSON.parse(JSON.stringify(COMBOS.hikers_dream)),
+		},
+	},
 };
 
 const MODE_VARS = {
@@ -351,5 +364,5 @@ const MODE_EX = {
 	elemTierCheap(source) { 
 		source.tierCheap = new ExpantaNum(source.tierCheap||0)
 		return source
-	}
+	},
 };
